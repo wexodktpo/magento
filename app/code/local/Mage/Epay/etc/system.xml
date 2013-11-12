@@ -210,7 +210,7 @@
                         <remoteinterface translate="label">
                             <label><![CDATA[<b>Process payments from within the order administration of Magento:</b>]]></label>
                             <comment><![CDATA[
-                            	Enable this option in order to capture, credit and delete payments directly from the Magento administration on the order page. You then don't need to enter the administration area of the payment system in order to process payments. <b>Notice!</b> This feature require the BUSINESS subscription.
+                            	Enable this option in order to capture, credit and delete payments directly from the Magento administration on the order page. You then don't need to enter the administration area of the payment system in order to process payments.
                             	<br><br>
                             	<b>Important information when processing the payments from Magento:</b>
                             	<br>
