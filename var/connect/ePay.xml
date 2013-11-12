@@ -1,0 +1,166 @@
+<_>
+   <form_key>Tz9HWEaxDb7bnL2w</form_key>
+   <_create/>
+   <name>ePay</name>
+   <channel>community</channel>
+   <version_ids>
+      <version_ids>2</version_ids>
+   </version_ids>
+   <summary>V. 2.5.9
+- Fixed invoice data - can now be disabled
+- Adjusted auto-cancel - timeout parameter added</summary>
+   <description>This is the payment module for the Scandinavian payment gateway ePay - http://www.epay.dk
+
+ePay is the leading payment system in Scandinavia, which offers payment solutions to both small and large companies. We have focus on flexible, effective and user friendly payment solutions for extreme competitive prices. 
+
+Card types accepted by the ePay payment gateway:
+- Dankort
+- VISA/Dankort
+- VISA
+- VISA Electron
+- MasterCard
+- Maestro
+- JCB
+- Diners
+- American Express
+- Forbrugsforeningen
+- eWire
+- VISA 3D Secure
+- MaserCard 3D secure
+- JCB 3D secure
+- Danske Bank e-betaling
+- Nordea e-betaling
+
+Get a test account for free by contacting ePay at support@epay.dk or signup on page http://www.epay.dk/main/signup.asp. In step two - just enter &quot;TEST ACCOUNT&quot;.
+
+For other enquiries please contact ePay at sales@epay.dk or by phone +45 98 13 90 40
+
+License:
+This program is free software for merchants. You are allowed to use the software but NOT allowed to modify the software. It is also not legal to do any changes to the software and distribute it in your own name / brand. 
+
+Copyright ePay | Payment solutions - www.epay.dk (c) 2010.</description>
+   <license>ePay limited license</license>
+   <license_uri/>
+   <version>2.5.9</version>
+   <stability>beta</stability>
+   <notes>- Fixed invoice data - can now be disabled
+- Adjusted auto-cancel - timeout parameter added</notes>
+   <authors>
+      <name>
+         <name>Thomas Knudsen</name>
+         <name>Michael Korsgaard</name>
+      </name>
+      <user>
+         <user>epay_tk</user>
+         <user>epay_mk</user>
+      </user>
+      <email>
+         <email>thomas@epay.dk</email>
+         <email>michael@epay.dk</email>
+      </email>
+   </authors>
+   <depends_php_min>4.0.0</depends_php_min>
+   <depends_php_max>100.0.0</depends_php_max>
+   <depends>
+      <package>
+         <name>
+            <name/>
+         </name>
+         <channel>
+            <channel/>
+         </channel>
+         <min>
+            <min/>
+         </min>
+         <max>
+            <max/>
+         </max>
+         <files>
+            <files>                                                       </files>
+         </files>
+      </package>
+      <extension>
+         <name>
+            <name>PDO</name>
+         </name>
+         <min>
+            <min/>
+         </min>
+         <max>
+            <max/>
+         </max>
+      </extension>
+   </depends>
+   <contents>
+      <target>
+         <target>magelocal</target>
+         <target>magelocal</target>
+         <target>mageetc</target>
+         <target>magedesign</target>
+         <target>magedesign</target>
+         <target>magelocale</target>
+         <target>magelocale</target>
+         <target>mageskin</target>
+         <target>magelocale</target>
+         <target>magelocale</target>
+         <target>magelocale</target>
+         <target>magelocale</target>
+      </target>
+      <path>
+         <path/>
+         <path>Mage/Epay</path>
+         <path>modules/Mage_Epay.xml</path>
+         <path>frontend/base/default/layout/epay.xml</path>
+         <path>frontend/base/default/template/epay/standard/</path>
+         <path>da_DK/Mage_Epay.csv</path>
+         <path>en_US/Mage_Epay.csv</path>
+         <path>adminhtml/base/default/images/epay/</path>
+         <path>en_AU/Mage_Epay.csv</path>
+         <path>en_GB/Mage_Epay.csv</path>
+         <path>en_NZ/Mage_Epay.csv</path>
+         <path>sv_SE/Mage_Epay.csv</path>
+      </path>
+      <type>
+         <type>file</type>
+         <type>dir</type>
+         <type>file</type>
+         <type>file</type>
+         <type>dir</type>
+         <type>file</type>
+         <type>file</type>
+         <type>dir</type>
+         <type>file</type>
+         <type>file</type>
+         <type>file</type>
+         <type>file</type>
+      </type>
+      <include>
+         <include/>
+         <include/>
+         <include/>
+         <include/>
+         <include/>
+         <include/>
+         <include/>
+         <include/>
+         <include/>
+         <include/>
+         <include/>
+         <include/>
+      </include>
+      <ignore>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+      </ignore>
+   </contents>
+</_>
