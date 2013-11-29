@@ -1,14 +1,13 @@
 <_>
-   <form_key>Tz9HWEaxDb7bnL2w</form_key>
+   <form_key>ivs2H6YBhM7kjBbW</form_key>
    <_create/>
    <name>ePay</name>
    <channel>community</channel>
    <version_ids>
       <version_ids>2</version_ids>
    </version_ids>
-   <summary>V. 2.5.9
-- Fixed invoice data - can now be disabled
-- Adjusted auto-cancel - timeout parameter added</summary>
+   <summary>V. 2.6
+- Released into stable</summary>
    <description>This is the payment module for the Scandinavian payment gateway ePay - http://www.epay.dk
 
 ePay is the leading payment system in Scandinavia, which offers payment solutions to both small and large companies. We have focus on flexible, effective and user friendly payment solutions for extreme competitive prices. 
@@ -41,8 +40,8 @@ This program is free software for merchants. You are allowed to use the software
 Copyright ePay | Payment solutions - www.epay.dk (c) 2010.</description>
    <license>ePay limited license</license>
    <license_uri/>
-   <version>2.5.9</version>
-   <stability>beta</stability>
+   <version>2.6.0</version>
+   <stability>stable</stability>
    <notes>- Fixed invoice data - can now be disabled
 - Adjusted auto-cancel - timeout parameter added</notes>
    <authors>
@@ -76,7 +75,7 @@ Copyright ePay | Payment solutions - www.epay.dk (c) 2010.</description>
             <max/>
          </max>
          <files>
-            <files>                                                       </files>
+            <files>                                                          </files>
          </files>
       </package>
       <extension>
