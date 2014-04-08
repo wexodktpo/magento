@@ -1,13 +1,13 @@
 <_>
-   <form_key>ivs2H6YBhM7kjBbW</form_key>
+   <form_key>HzyfMfyGIiGAblHY</form_key>
    <_create/>
    <name>ePay</name>
    <channel>community</channel>
    <version_ids>
       <version_ids>2</version_ids>
    </version_ids>
-   <summary>V. 2.6
-- Released into stable</summary>
+   <summary>V. 2.6.1
+- Added payment request</summary>
    <description>This is the payment module for the Scandinavian payment gateway ePay - http://www.epay.dk
 
 ePay is the leading payment system in Scandinavia, which offers payment solutions to both small and large companies. We have focus on flexible, effective and user friendly payment solutions for extreme competitive prices. 
@@ -40,10 +40,9 @@ This program is free software for merchants. You are allowed to use the software
 Copyright ePay | Payment solutions - www.epay.dk (c) 2010.</description>
    <license>ePay limited license</license>
    <license_uri/>
-   <version>2.6.0</version>
-   <stability>stable</stability>
-   <notes>- Fixed invoice data - can now be disabled
-- Adjusted auto-cancel - timeout parameter added</notes>
+   <version>2.6.1</version>
+   <stability>beta</stability>
+   <notes>- Added payment request</notes>
    <authors>
       <name>
          <name>Thomas Knudsen</name>
@@ -75,7 +74,7 @@ Copyright ePay | Payment solutions - www.epay.dk (c) 2010.</description>
             <max/>
          </max>
          <files>
-            <files>                                                          </files>
+            <files>                                                            </files>
          </files>
       </package>
       <extension>
@@ -104,6 +103,10 @@ Copyright ePay | Payment solutions - www.epay.dk (c) 2010.</description>
          <target>magelocale</target>
          <target>magelocale</target>
          <target>magelocale</target>
+         <target>magelocal</target>
+         <target>magelocal</target>
+         <target>magedesign</target>
+         <target>magedesign</target>
       </target>
       <path>
          <path/>
@@ -118,6 +121,10 @@ Copyright ePay | Payment solutions - www.epay.dk (c) 2010.</description>
          <path>en_GB/Mage_Epay.csv</path>
          <path>en_NZ/Mage_Epay.csv</path>
          <path>sv_SE/Mage_Epay.csv</path>
+         <path>nb_NO/Mage_Epay.csv</path>
+         <path>de_DE/Mage_Epay.csv</path>
+         <path>adminhtml/default/default/template/epay/</path>
+         <path>adminhtml/default/default/layout/epay.xml</path>
       </path>
       <type>
          <type>file</type>
@@ -131,6 +138,10 @@ Copyright ePay | Payment solutions - www.epay.dk (c) 2010.</description>
          <type>file</type>
          <type>file</type>
          <type>file</type>
+         <type>file</type>
+         <type>file</type>
+         <type>file</type>
+         <type>dir</type>
          <type>file</type>
       </type>
       <include>
@@ -146,8 +157,16 @@ Copyright ePay | Payment solutions - www.epay.dk (c) 2010.</description>
          <include/>
          <include/>
          <include/>
+         <include/>
+         <include/>
+         <include/>
+         <include/>
       </include>
       <ignore>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+         <ignore/>
          <ignore/>
          <ignore/>
          <ignore/>
