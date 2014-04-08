@@ -10,7 +10,7 @@
 <config>
     <modules>
         <Mage_Epay>
-            <version>2.6.0</version>
+            <version>2.6.1</version>
         </Mage_Epay>
     </modules>
     <global>
@@ -19,10 +19,12 @@
                 <class>Mage_Epay_Model</class>
                 <resourceModel>epay_mysql4</resourceModel>
             </epay>
-            <epay_mysql4>
+			<epay_mysql4>
                 <class>Mage_Epay_Model_Mysql4</class>
                 <entities>
-                    <api_debug><table>epay_api_debug</table></api_debug>
+                    <paymentrequest>
+						<table>paymentrequest</table>
+					</paymentrequest>
                 </entities>
             </epay_mysql4>
         </models>
@@ -48,7 +50,9 @@
             </epay_read>
         </resources>
         <blocks>
-            <epay><class>Mage_Epay_Block</class></epay>
+            <epay>
+				<class>Mage_Epay_Block</class>
+			</epay>
 
 			<adminhtml>
 				<rewrite>
@@ -73,6 +77,12 @@
 					<sales_block_order_print>Mage_Epay_Block_Sales_Order_Print</sales_block_order_print>
 				</rewrite>
 			</adminhtml>
+			
+	         <adminhtml>
+	            <rewrite>
+	                <sales_order_view>Mage_Epay_Block_Adminhtml_Sales_Order_View</sales_order_view>
+	            </rewrite>
+	        </adminhtml>
         </blocks>
 		<helpers>
             <!-- helper path -->
@@ -111,7 +121,15 @@
 	         </updates>
 	    </layout>
     </frontend>
+	
     <adminhtml>
+	    <layout>
+            <updates>
+                <epay>
+                    <file>epay.xml</file>
+                </epay>
+            </updates>
+        </layout>
         <translate>
             <modules>
                 <Mage_Epay>
@@ -140,6 +158,17 @@
                 </admin>
             </resources>
         </acl>
+		<menu>
+	      <sales>
+	        <children>
+	          <epay_adminform translate="title" module="epay">
+	            <title>ePay Payment Request</title>
+	            <sort_order>99</sort_order>
+	            <action>epay/adminhtml_paymentrequest</action>
+	          </epay_adminform>
+	        </children>
+	      </sales>
+	    </menu>
     </adminhtml>
 
     <default>
@@ -174,27 +203,19 @@
     </default>
     
     <interest_form>
-			<label>lead capture form</label>
-			<template>page/leadcapture.phtml</template>
+		<label>lead capture form</label>
+		<template>page/leadcapture.phtml</template>
 	</interest_form> 
-
-	<global>
-		<models>
-			<epay>
-				<class>Mage_Epay_Model</class> 
-			</epay>
-		</models>
-	</global>
 
     <admin>
         <routers>
-            <adminhtml>
+			<epay>
+                <use>admin</use>
                 <args>
-                    <modules>
-                        <Mage_Epay before="Mage_Adminhtml">Mage_Epay</Mage_Epay>
-                    </modules>
+                    <module>Mage_Epay_Adminhtml</module>
+                    <frontName>epay</frontName>
                 </args>
-            </adminhtml>
+            </epay>
         </routers>
     </admin>
 	
