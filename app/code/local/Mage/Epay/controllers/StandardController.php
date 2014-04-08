@@ -15,11 +15,11 @@ class Mage_Epay_StandardController extends Mage_Core_Controller_Front_Action
     protected function _expireAjax()
     {
         if (!Mage::getSingleton('checkout/session')->getQuote()->hasItems()) {
-            $this->getResponse()->setHeader('HTTP/1.1','403 Session Expired');
+            $this->getResponse()->setHeader('HTTP/1.1', '403 Session Expired');
             exit;
         }
     }
-
+	
     /**
      * Get singleton with epay strandard order transaction information
      *
@@ -29,7 +29,7 @@ class Mage_Epay_StandardController extends Mage_Core_Controller_Front_Action
     {
         return Mage::getSingleton('epay/standard');
     }
-
+	
     /**
      * When a customer chooses Epay on Checkout/Payment page
      *
@@ -44,7 +44,7 @@ class Mage_Epay_StandardController extends Mage_Core_Controller_Front_Action
 		$this->renderLayout();
 		
 		//
-		// Load teh session object
+		// Load the session object
 		//
 		$session = Mage::getSingleton('checkout/session');
 		$session->setEpayStandardQuoteId($session->getQuoteId());
@@ -58,24 +58,6 @@ class Mage_Epay_StandardController extends Mage_Core_Controller_Front_Action
 		$this->_orderObj->save();		
     }
 	
-    //
-    // Changes the order status after payment is made
-    //
-    public function setOrderStatusAfterPayment($payment)
-    {
-		//$this->_orderObj->setOrderStatus($payment->getConfigData('order_status_after_payment', $payment->getOrder() ? $payment->getOrder()->getStoreId() : null));
-		$this->_orderObj->addStatusToHistory($payment->getConfigData('order_status_after_payment', $payment->getOrder() ? $payment->getOrder()->getStoreId() : null));
-		$this->_orderObj->save();
-		return;
-
-		//
-		// Set the status to the new epay status after payment
-		// and save to database
-		//
-		$this->_orderObj->addStatusToHistory($payment->getConfigData('order_status_after_payment', $payment->getOrder() ? $payment->getOrder()->getStoreId() : null), 'Payment approved', false);
-		$this->_orderObj->save();
-    }
-
     /**
      * When a customer cancel payment from epay.
      */
@@ -105,7 +87,7 @@ class Mage_Epay_StandardController extends Mage_Core_Controller_Front_Action
         $this->_redirect('checkout/cart');
         return;
     }
-     
+	
 	public function getOrderUpdatedWithEpayData($orderid)
 	{
 		// Read info directly from the database   	
@@ -115,7 +97,7 @@ class Mage_Epay_StandardController extends Mage_Core_Controller_Front_Action
 		$standard = Mage::getModel('epay/standard');
 		return ($row['status'] == '1');
 	}
-	 
+	
     protected function _fillPaymentByResponse(Varien_Object $payment)
     {
         $payment->setTransactionId($_GET["txnid"])
@@ -144,10 +126,7 @@ class Mage_Epay_StandardController extends Mage_Core_Controller_Front_Action
     {   
         $session = Mage::getSingleton('checkout/session');
         $session->setQuoteId($session->getEpayStandardQuoteId(true));
-        /**
-         * set the quote as inactive after back from epay
-         */
-        //Mage::getSingleton('checkout/session')->getQuote()->setIsActive(false)->save();
+        Mage::getSingleton('checkout/session')->getQuote()->setIsActive(false)->save();
         
         $this->_orderObj = Mage::getModel('sales/order');
         $payment = Mage::getModel('epay/standard');
@@ -216,6 +195,21 @@ class Mage_Epay_StandardController extends Mage_Core_Controller_Front_Action
 									    									
 		$read = Mage::getSingleton('core/resource')->getConnection('core_read');
 		$row = $read->fetchRow("select * from epay_order_status where orderid = '" . $_GET['orderid'] . "'");
+		
+		//
+		// Create if no rows found and payment request
+		//
+		if(!$row && isset($_GET['paymentrequest']) && strlen($_GET['paymentrequest']) > 0)
+		{
+			//
+			// Save the order into the epay_order_status table
+			//
+			$write = Mage::getSingleton('core/resource')->getConnection('core_write');
+			$write->insert('epay_order_status', array('orderid'=>$_GET['orderid']));
+			
+			$read = Mage::getSingleton('core/resource')->getConnection('core_read');
+			$row = $read->fetchRow("select * from epay_order_status where orderid = '" . $_GET['orderid'] . "'");
+		}
 
 		if ($row['status'] == '0') 		
 		{
@@ -235,6 +229,9 @@ class Mage_Epay_StandardController extends Mage_Core_Controller_Front_Action
 									'transfee = "' . ((isset($_GET['txnfee'])) ? $_GET['txnfee'] : '0') . '" where orderid = "' . $_GET['orderid'] . '"');
 									
 			$this->_orderObj->addStatusToHistory($payment->getConfigData('order_status_after_payment', $payment->getOrder() ? $payment->getOrder()->getStoreId() : null));
+			
+			//$this->_orderObj->setState('processing', $payment->getConfigData('order_status_after_payment', $payment->getOrder() ? $payment->getOrder()->getStoreId() : null), "", false);
+			
 			$this->_orderObj->save();
 
 			//
@@ -254,6 +251,16 @@ class Mage_Epay_StandardController extends Mage_Core_Controller_Front_Action
 					
 					$this->_orderObj->save();
 				}
+			}
+			
+			//
+			// See if a payment request
+			//
+			if(isset($_GET['paymentrequest']) && strlen($_GET['paymentrequest']) > 0)
+			{
+				//Mark as paid
+				$paymentRequestUpdate = Mage::getModel('epay/paymentrequest')->load($_GET["paymentrequest"])->setData('ispaid', "1");
+				$paymentRequestUpdate->setId($_GET["paymentrequest"])->save($paymentRequestUpdate);
 			}
 			
 			//
