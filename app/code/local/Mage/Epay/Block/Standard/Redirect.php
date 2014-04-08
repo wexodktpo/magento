@@ -19,6 +19,6 @@ class Mage_Epay_Block_Standard_Redirect extends Mage_Core_Block_Template
     	// Save the order into the epay_order_status table
     	//
     	$write = Mage::getSingleton('core/resource')->getConnection('core_write');
-		$write->insert('epay_order_status', Array('orderid'=>$standard->getCheckout()->getLastRealOrderId()));
+		$write->insert('epay_order_status', array('orderid'=>$standard->getCheckout()->getLastRealOrderId()));
     }
 }
