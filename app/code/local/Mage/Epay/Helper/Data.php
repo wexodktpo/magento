@@ -6,5 +6,15 @@
  */
 class Mage_Epay_Helper_Data extends Mage_Core_Helper_Abstract
 {
-    
+    public function isValidOrder($incrementId)
+	{
+		//Validate order id
+		$order = Mage::getModel('sales/order')->loadByIncrementId($incrementId);
+		if($order->hasData())
+		{
+			return true;
+		}
+		
+		return false;
+	}
 }
