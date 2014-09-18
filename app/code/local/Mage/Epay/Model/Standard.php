@@ -139,7 +139,7 @@ class Mage_Epay_Model_Standard extends Mage_Payment_Model_Method_Abstract
 	}
 	
 	public function canVoid(Varien_Object $payment)
-	{
+	{		
 		$voidOrder = $this->_data["info_instance"]->getOrder();
 		
 		if (((int)$this->getConfigData('remoteinterface', $voidOrder ? $voidOrder->getStoreId() : null)) != 1) {
@@ -194,6 +194,7 @@ class Mage_Epay_Model_Standard extends Mage_Payment_Model_Method_Abstract
     public function validate()
     {
         parent::validate();
+		
         $currencyCode = $this->getQuote()->getBaseCurrencyCode();
 		if(isset($currencyCode))
 		{
@@ -344,7 +345,7 @@ class Mage_Epay_Model_Standard extends Mage_Payment_Model_Method_Abstract
     {
 		$md5stamp = md5(
 					"UTF-8" .
-					"magento" .
+					"magento-2.6.3" .
 					$this->getConfigData('windowstate', $order ? $order->getStoreId() : null) .
 					$this->getConfigData('merchantnumber', $order ? $order->getStoreId() : null) .
 					$this->getConfigData('windowid', $order ? $order->getStoreId() : null) .
@@ -361,6 +362,7 @@ class Mage_Epay_Model_Standard extends Mage_Payment_Model_Method_Abstract
 					$this->getConfigData('ownreceipt', $order ? $order->getStoreId() : null) .
 					"60" .
 					$this->getOrderInJson($order) .
+					intval($standard->getConfigData('splitpayment', $order ? $order->getStoreId() : null)) .
 					$this->getConfigData('md5key', $order ? $order->getStoreId() : null)
 					);
 					
@@ -656,7 +658,7 @@ class Mage_Epay_Model_Standard extends Mage_Payment_Model_Method_Abstract
     }
 
     public function void (Varien_Object $payment)
-	{
+	{		
 		$this->cancel($payment);
 		return $this;
 	}
@@ -667,6 +669,30 @@ class Mage_Epay_Model_Standard extends Mage_Payment_Model_Method_Abstract
 		
 		if(Mage::app()->getRequest()->getActionName() == 'save')
 		{
+			$order = $payment->getOrder();
+			$_totalDatas = $order->getData();
+			
+			$childOrder = Mage::getModel('sales/order')->loadByIncrementId($_totalDatas['relation_child_real_id']);
+			
+			if($childOrder->getBaseGrandTotal() <= $order->getBaseGrandTotal())
+			{
+				$childPayment = $childOrder->getPayment();
+				
+				$write = Mage::getSingleton('core/resource')->getConnection('core_write');
+				$write->query('update epay_order_status set orderid = "' . $_totalDatas['relation_child_real_id'] . '" WHERE orderid = "' . $order->getIncrementId() . '"');
+				
+				$transactionId = $payment->getParentTransactionId();
+				
+				$childPayment->setTransactionId($transactionId)->setIsTransactionClosed(0);
+				$transaction = $childPayment->addTransaction(Mage_Sales_Model_Order_Payment_Transaction::TYPE_AUTH);
+				$transaction->setAdditionalInformation("Transaction ID", $transactionId);
+				$transaction->save();
+			}
+			else
+			{
+				$session->addError("The transaction could not be moved because the amount of the edited order exceeds the transaction amount - Go to the ePay administration to handle the payment manually.");
+			}
+			
 			return;
 		}
 

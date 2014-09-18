@@ -26,11 +26,13 @@ $callbackurl = Mage::getUrl('epay/standard/callback', array('_nosid' => true));
 //
 ?>
 <script type="text/javascript">
+	var isPaymentWindowReady = false;
+
 	function PaymentWindowReady()
 	{
 		paymentwindow = new PaymentWindow({
 			'encoding': "UTF-8",
-			'cms': "magento",
+			'cms': "magento-2.6.3",
 			'windowstate': "<?php echo $standard->getConfigData('windowstate', $order ? $order->getStoreId() : null) ?>",
 			'merchantnumber': "<?php echo $standard->getConfigData('merchantnumber', $order ? $order->getStoreId() : null) ?>",
 			'windowid': "<?php echo $standard->getConfigData('windowid', $order ? $order->getStoreId() : null) ?>",
@@ -50,14 +52,32 @@ $callbackurl = Mage::getUrl('epay/standard/callback', array('_nosid' => true));
 			<?php if($standard->getConfigData('enableinvoicedata', $order ? $order->getStoreId() : null) == '1') { ?>
 			'invoice': '<?php echo $standard->getOrderInJson($order); ?>',
 			<?php } ?>
+			'splitpayment': "<?php echo intval($standard->getConfigData('splitpayment', $order ? $order->getStoreId() : null)) ?>",
 			'hash': "<?php echo $standard->calcMd5Key($order, $accepturl, $cancelurl, $callbackurl); ?>"
 		});
 		
-		paymentwindow.open();
+		isPaymentWindowReady = true;
 	}
 </script>
 <script type="text/javascript" src="https://ssl.ditonlinebetalingssystem.dk/integration/ewindow/paymentwindow.js" charset="UTF-8"></script>
+<script type="text/javascript">
+var timerOpenWindow;
 
+function openPaymentWindow()
+{
+	if(isPaymentWindowReady)
+	{
+		clearInterval(timerOpenWindow);
+		paymentwindow.open();
+	}
+}
+
+document.onreadystatechange = function () {
+	if (document.readyState === 'complete') {
+		timerOpenWindow = setInterval('openPaymentWindow()', 500);
+	}
+}
+</script>
 <h1><?php echo $this->__('EPAY_LABEL_5') ?></h1>
 <?php echo $this->__('EPAY_LABEL_32') ?>
 <br /><br />

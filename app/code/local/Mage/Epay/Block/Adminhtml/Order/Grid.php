@@ -12,7 +12,7 @@ class Mage_Epay_Block_Adminhtml_Order_Grid extends Mage_Adminhtml_Block_Sales_Or
 
         $this->getMassactionBlock()->addItem('epay_order', array(
              'label'=> Mage::helper('sales')->__('Capture with ePay'),
-             'url'  => $this->getUrl('*/sales_order/epayCapture'),
+             'url'  => $this->getUrl('epay/adminhtml_massaction/epayCapture'),
         ));
 
         return $this;

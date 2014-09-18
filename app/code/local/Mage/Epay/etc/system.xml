@@ -12,7 +12,7 @@
         <payment>
             <groups>
                 <epay_standard translate="label" module="epay">
-                    <label>ePay | Payment Solutions</label>
+                    <label>ePay | Payment Solutions 2.6.3 (beta)</label>
                     <comment><![CDATA[Detailed description of these settings are to be found on <a href="http://www.magentoguiden.dk" target="_blank">www.magentoguiden.dk</a>.<br><br>]]></comment>
                     <frontend_type>text</frontend_type>
                     <sort_order>1</sort_order>
@@ -256,6 +256,22 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </enableinvoicedata>
+                        <min_order_total translate="label">
+                            <label><![CDATA[<b>Minimum Order Total</b>]]></label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </min_order_total>
+                        <max_order_total translate="label">
+                            <label><![CDATA[<b>Maximum Order Total</b>]]></label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>31</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </max_order_total>
                     </fields>
                 </epay_standard>
             </groups>

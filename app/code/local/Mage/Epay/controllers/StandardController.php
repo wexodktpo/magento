@@ -55,7 +55,21 @@ class Mage_Epay_StandardController extends Mage_Core_Controller_Front_Action
 		$this->_orderObj = Mage::getModel('sales/order');
 		$this->_orderObj->loadByIncrementId($session->getLastRealOrderId());
 		$this->_orderObj->addStatusToHistory($this->_orderObj->getStatus(), $this->__('EPAY_LABEL_31'));
-		$this->_orderObj->save();		
+		$this->_orderObj->save();
+    }
+	
+	public function checkoutAction()
+    {
+		//
+		// Load layout
+		//
+		$quote = Mage::getModel('checkout/cart')->getQuote();
+
+		$quote->reserveOrderId();
+		
+		$this->loadLayout();
+		$this->getLayout()->getBlock('content')->append($this->getLayout()->createBlock('epay/standard_checkout'));
+		$this->renderLayout();
     }
 	
     /**
@@ -192,7 +206,7 @@ class Mage_Epay_StandardController extends Mage_Core_Controller_Front_Action
         }
 		
 		$this->_authOrder($this->_orderObj);
-									    									
+		
 		$read = Mage::getSingleton('core/resource')->getConnection('core_read');
 		$row = $read->fetchRow("select * from epay_order_status where orderid = '" . $_GET['orderid'] . "'");
 		
@@ -268,7 +282,7 @@ class Mage_Epay_StandardController extends Mage_Core_Controller_Front_Action
 			//        	
 			if (((int)$payment->getConfigData('sendmailorderconfirmation', $payment->getOrder() ? $payment->getOrder()->getStoreId() : null)) == 1)
 			{
-				$this->_orderObj->setEmailSent(true);
+				//$this->_orderObj->setEmailSent(true);
 			    $this->_orderObj->sendNewOrderEmail();
 			    $this->_orderObj->save();
 			}

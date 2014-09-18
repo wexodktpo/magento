@@ -10,7 +10,7 @@
 <config>
     <modules>
         <Mage_Epay>
-            <version>2.6.1</version>
+            <version>2.6.3</version>
         </Mage_Epay>
     </modules>
     <global>
@@ -169,6 +169,7 @@
 	        </children>
 	      </sales>
 	    </menu>
+		
     </adminhtml>
 
     <default>
@@ -187,6 +188,7 @@
                   <transaction_type>0</transaction_type>
                   <remoteinterface>0</remoteinterface>
 				  <enableinvoicedata>0</enableinvoicedata>
+				  <splitpayment>0</splitpayment>
             </epay_standard>
             <ccsave>
                 <active>0</active>
@@ -209,13 +211,13 @@
 
     <admin>
         <routers>
-			<epay>
+			<epaycapture>
                 <use>admin</use>
                 <args>
-                    <module>Mage_Epay_Adminhtml</module>
-                    <frontName>epay</frontName>
+                    <module>Mage_Epay</module>
+                    <frontname>deleteordermassaction</frontname>
                 </args>
-            </epay>
+            </epaycapture>
         </routers>
     </admin>
 	
