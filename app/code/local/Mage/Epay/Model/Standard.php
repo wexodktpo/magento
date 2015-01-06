@@ -236,6 +236,11 @@ class Mage_Epay_Model_Standard extends Mage_Payment_Model_Method_Abstract
     	return Mage::getUrl('epay/standard/redirect');
     }
 	
+	function jsonValueRemoveSpecialCharacters($value)
+	{
+		return preg_replace('/[^\p{Latin}\d ]/u', '', $value);
+	}
+	
 	private function jsonRemoveUnicodeSequences($struct)
 	{
 		return preg_replace("/\\\\u([a-f0-9]{4})/e", "iconv('UCS-4LE','UTF-8',pack('V', hexdec('U$1')))", json_encode($struct));
@@ -272,7 +277,7 @@ class Mage_Epay_Model_Standard extends Mage_Payment_Model_Method_Abstract
 				$invoice["lines"][] = array
 		        (
 		            "id" => $item["id"],
-		            "description" => $item["description"],
+		            "description" => $this->jsonValueRemoveSpecialCharacters($item["description"]),
 		            "quantity" => intval($item["quantity"]),
 		            "price" => $item["price"],
 					"vat" => ($item["vat"] == null ? 0 : $item["vat"])
@@ -345,7 +350,7 @@ class Mage_Epay_Model_Standard extends Mage_Payment_Model_Method_Abstract
     {
 		$md5stamp = md5(
 					"UTF-8" .
-					"magento-2.6.3" .
+					"magento-2.6.4" .
 					$this->getConfigData('windowstate', $order ? $order->getStoreId() : null) .
 					$this->getConfigData('merchantnumber', $order ? $order->getStoreId() : null) .
 					$this->getConfigData('windowid', $order ? $order->getStoreId() : null) .
@@ -362,7 +367,7 @@ class Mage_Epay_Model_Standard extends Mage_Payment_Model_Method_Abstract
 					$this->getConfigData('ownreceipt', $order ? $order->getStoreId() : null) .
 					"60" .
 					$this->getOrderInJson($order) .
-					intval($standard->getConfigData('splitpayment', $order ? $order->getStoreId() : null)) .
+					intval($this->getConfigData('splitpayment', $order ? $order->getStoreId() : null)) .
 					$this->getConfigData('md5key', $order ? $order->getStoreId() : null)
 					);
 					
