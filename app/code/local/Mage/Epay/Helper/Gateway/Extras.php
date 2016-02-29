@@ -185,7 +185,7 @@ class Mage_Epay_Helper_Gateway_Extras extends Mage_Core_Helper_Abstract
             "quantity" => 1,
             "id" => $this->order->getShippingMethod(),
             "description" => $this->order->getShippingDescription(),
-            "price" => ($this->order->getBaseShippingInclTax() - $this->getTaxRate($taxClass)) * 100,
+            "price" => $this->order->getShippingAmount() * 100,
             "vat" => $this->getTaxRate($taxClass)
         );
     }
