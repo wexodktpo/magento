@@ -98,14 +98,5 @@ document.onreadystatechange = function () {
 		<label for="CurrencyAmount"><?php echo $order->getBaseCurrency()->getCode() ?>&nbsp;<?php echo number_format($order->getBaseTotalDue(), 2, ',', ' ') ?></label>
 	</td>
 	</tr>
-	<tr>
-		<td colspan="2">
-			<br>
-			<input type="button" value="<?php echo $this->__('EPAY_LABEL_35') ?>" onclick="javascript: paymentwindow.open();"> <br><br>
-			<br />
-			<?php echo $this->__('EPAY_LABEL_33') ?> <br><br>
-			<br />
-			<input name="paymentCancel" id="paymentCancel" value="<?php echo $this->__('EPAY_LABEL_100') ?>" type="button" class="form-button-alt" onclick="javascript:location='<?php echo $cancelurl; ?>'" />	
-		</td>
-	</tr>
+
 </table>
