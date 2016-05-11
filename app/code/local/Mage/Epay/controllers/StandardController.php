@@ -90,11 +90,11 @@ class Mage_Epay_StandardController extends Mage_Core_Controller_Front_Action
 			{
 				$quote = Mage::getModel('sales/quote')->load($lastQuoteId);
 				$quote->setIsActive(true)->save();
-				$orderModel->cancel();
+				/*$orderModel->cancel();
 				$orderModel->setStatus('canceled');
 				$orderModel->save();
 				Mage::getSingleton('core/session')->setFailureMsg('order_failed');
-				Mage::getSingleton('checkout/session')->setFirstTimeChk('0');
+				Mage::getSingleton('checkout/session')->setFirstTimeChk('0');*/
 			}
 		}
 		
